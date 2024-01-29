@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import os
 from .data_saver import DataSaver
+from utils.folder_manager import ensure_folder_exists
 
 
 class PoseLandmarkExtractor:
@@ -29,7 +30,7 @@ class PoseLandmarkExtractor:
         self.pose_estimator = self.mp_pose.Pose(
             min_detection_confidence=0.5, min_tracking_confidence=0.5
         )
-        self.data_saver = DataSaver(project_root_path)
+        self.data_saver = DataSaver(project_root_path, video_file_name)
 
     def process_frame(self, frame, pose_data_list, frame_index, fps):
         """
@@ -89,6 +90,16 @@ class PoseLandmarkExtractor:
         video_path = os.path.join(
             self.project_root_path, "data", "input_videos", self.video_file_name
         )
+
+        # Define the output video folder path
+        output_video_folder = os.path.join(
+            self.project_root_path, "data", "output_videos"
+        )
+
+        # Ensure that the output video folder exists
+        if not ensure_folder_exists(output_video_folder):
+            return False
+
         output_path = os.path.join(
             self.project_root_path,
             "data",

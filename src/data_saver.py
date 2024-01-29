@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from utils.folder_manager import ensure_folder_exists
 
 
 class DataSaver:
@@ -10,7 +11,7 @@ class DataSaver:
         project_root_path (str): The root path of the project.
     """
 
-    def __init__(self, project_root_path):
+    def __init__(self, project_root_path, video_file_name):
         """
         Initializes the DataSaver.
 
@@ -18,6 +19,7 @@ class DataSaver:
             project_root_path (str): The root path of the project.
         """
         self.project_root_path = project_root_path
+        self.video_file_name = video_file_name
 
     def save_pose_data_to_csv(self, pose_data_list):
         """
@@ -30,9 +32,21 @@ class DataSaver:
             bool: True if successful, False otherwise.
         """
         try:
+            # Define the output CSV folder path
+            output_csv_folder = os.path.join(
+                self.project_root_path, "data", "output_csv"
+            )
+
+            # Ensure that the output CSV folder exists
+            if not ensure_folder_exists(output_csv_folder):
+                return False
+
+            # Split the name of video_file_name
+            file_name = self.video_file_name.split(".")[0]
+
             # Define the output CSV path
             output_csv_path = os.path.join(
-                self.project_root_path, "data", "output_csv", "pose_data.csv"
+                output_csv_folder, "annotated_" + file_name + "_pose_data.csv"
             )
 
             # Create a DataFrame from the pose data list
