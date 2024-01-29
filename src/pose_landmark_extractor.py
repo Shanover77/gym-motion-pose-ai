@@ -66,6 +66,17 @@ class PoseLandmarkExtractor:
                     ]
                 )
 
+                # Print Pose Landmark Information
+                print("Pose Landmark Information:")
+                print("Frame Index:", frame_index)
+                print("idx:", idx)
+                print("x:", landmark.x)
+                print("y:", landmark.y)
+                print("z:", landmark.z)
+                print("Visibility:", landmark.visibility)
+                print("Time (seconds):", frame_time)
+                print("\n")
+
         return frame
 
     def run_extraction(self):
