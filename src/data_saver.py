@@ -1,5 +1,5 @@
-import pandas as pd
 import os
+import csv
 from utils.folder_manager import ensure_folder_exists
 
 
@@ -9,6 +9,7 @@ class DataSaver:
 
     Attributes:
         project_root_path (str): The root path of the project.
+        video_file_name (str): The name of the video file.
     """
 
     def __init__(self, project_root_path, video_file_name):
@@ -17,6 +18,7 @@ class DataSaver:
 
         Args:
             project_root_path (str): The root path of the project.
+            video_file_name (str): The name of the video file.
         """
         self.project_root_path = project_root_path
         self.video_file_name = video_file_name
@@ -37,7 +39,7 @@ class DataSaver:
                 self.project_root_path, "data", "output_csv"
             )
 
-            # Ensure that the output CSV folder exists
+            # Ensure that the output CSV folder exists; create if it doesn't
             if not ensure_folder_exists(output_csv_folder):
                 return False
 
@@ -49,20 +51,22 @@ class DataSaver:
                 output_csv_folder, "annotated_" + file_name + "_pose_data.csv"
             )
 
-            # Create a DataFrame from the pose data list
-            columns = [
-                "Frame Index",
-                "Landmark Index",
-                "X",
-                "Y",
-                "Z",
-                "Visibility",
-                "Time (seconds)",
-            ]
-            df = pd.DataFrame(pose_data_list, columns=columns)
+            # Write the header and data to the CSV file
+            with open(output_csv_path, "w", newline="") as csvfile:
+                csv_writer = csv.writer(csvfile)
+                header = [
+                    "Frame Index",
+                    "Landmark Index",
+                    "X",
+                    "Y",
+                    "Z",
+                    "Visibility",
+                    "Time (seconds)",
+                ]
+                csv_writer.writerow(header)
 
-            # Save the DataFrame to a CSV file
-            df.to_csv(output_csv_path, index=False)
+                for pose_entry in pose_data_list:
+                    csv_writer.writerow(pose_entry)
 
             print(f"Pose data saved to {output_csv_path}")
             return True
