@@ -8,9 +8,6 @@ gym-motion-pose-ai: An on-going project to critique an exercise by using an ense
 ## Notebooks
 Contains experimental notebooks that has the code for ETL/EDA.
 
-## Notebooks
-
-
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
