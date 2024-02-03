@@ -23,7 +23,7 @@ To run this project, you will need to add the following environment variables to
 Clone the project
 
 ```bash
-  git clone https://github.com/ujjawalpoudel/GymGuard
+  git clone "repository url"
 ```
 
 Go to the project directory
