@@ -57,7 +57,7 @@ Start the server
 - [@Shanover77](https://github.com/Shanover77)
 - [@Sunilrai486](https://github.com/Sunilrai486)
 
-## References and related work
+## References
 
 Mihai Fieraru, Mihai Zanfir, Silviu-Cristian Pirlea, Vlad Olaru, and Cristian Sminchisescu.  
 "AIFit: Automatic 3D Human-Interpretable Feedback Models for Fitness Training."  
