@@ -62,6 +62,12 @@ class DataSaver:
                     "Z",
                     "Visibility",
                     "Time (seconds)",
+                    "RE_SH_H",
+                    "LE_SH_H",
+                    "RW_E_SH",
+                    "LW_E_SH",
+                    "RH_K_A",
+                    "LH_K_A",
                 ]
                 csv_writer.writerow(header)
 
