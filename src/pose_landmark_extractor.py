@@ -13,19 +13,22 @@ class PoseLandmarkExtractor:
     Args:
         video_file_name (str): Name of the input video file.
         project_root_path (str): Absolute path to the project root.
+        video_full_path (str): Absolute path to the input video file.
 
     Attributes:
         video_file_name (str): Name of the input video file.
         project_root_path (str): Absolute path to the project root.
+        video_full_path (str): Absolute path to the input video file.
         mp_drawing (mediapipe.solutions.drawing_utils): MediaPipe drawing utilities.
         mp_pose (mediapipe.solutions.pose): MediaPipe Pose estimator.
         pose_estimator (mediapipe.solutions.pose.Pose): Pose estimator instance.
         data_saver (DataSaver): DataSaver instance for saving pose data to CSV.
     """
 
-    def __init__(self, video_file_name, project_root_path):
+    def __init__(self, video_file_name, project_root_path, video_full_path):
         self.video_file_name = video_file_name
         self.project_root_path = project_root_path
+        self.video_full_path = video_full_path
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_pose = mp.solutions.pose
         self.pose_estimator = self.mp_pose.Pose(
@@ -175,9 +178,6 @@ class PoseLandmarkExtractor:
         Returns:
             bool: True if extraction is successful, False otherwise.
         """
-        video_path = os.path.join(
-            self.project_root_path, "data", "input_videos", self.video_file_name
-        )
 
         # Define the output video folder path
         output_video_folder = os.path.join(
@@ -195,7 +195,7 @@ class PoseLandmarkExtractor:
             "annotated_" + self.video_file_name,
         )
 
-        cap = cv2.VideoCapture(video_path)
+        cap = cv2.VideoCapture(self.video_full_path)
 
         if not cap.isOpened():
             print("Error: Could not open the video file.")
