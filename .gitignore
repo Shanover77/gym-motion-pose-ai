@@ -159,6 +159,9 @@ cython_debug/
 # Ignore data folder
 data/
 
+# Ignore CSV file extension
+*.csv
+
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
