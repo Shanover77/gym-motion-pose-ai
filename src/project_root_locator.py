@@ -1,7 +1,7 @@
 import os
 
 
-def find_project_root() -> str:
+def find_project_root():
     """
     Finds and returns the root path of the project.
 
