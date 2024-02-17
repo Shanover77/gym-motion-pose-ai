@@ -1,64 +1,27 @@
-gym-motion-pose-ai: An on-going project to critique an exercise by using an ensemble of ML/Vision models. Mainly focuses on orientations, angle of joints, based on the human pose estimate (33 Joints)
+This project is to critique an exercise by using an ensemble of ML/Vision models. Mainly focuses on orientation and angle of joints based on the human pose estimate (33 Joints)
 
 ## Key Milestones
 1. Repetition detection model
 2. Orientation and symmetry model
 3. Threshold predictor for training step
 
-## Notebooks
-Contains experimental notebooks that has the code for ETL/EDA.
-
 ## Environment Variables
+To run this project, ensure the following environment variable is set in your .env file:
+`VIDEO_FILE_NAME=barbell_dead_row_65906101_s05_13ang.mp4`
+with the file format of `exerciseName_cameraId_personId_features.`
 
-To run this project, you will need to add the following environment variables to your .env file
+- exerciseName: barbell_dead_row
+- cameraId: 65906101
+- personId: s05
+- features: 13ang
 
-`VIDEO_FILE_NAME=barbell_row.mp4`
-
-
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone "repository url"
-```
-
-Go to the project directory
-
-```bash
-  cd gym-motion-pose-ai
-```
-
-Create a Virtual Environment
-```bash
-  python3.11 -m venv gym-motion-pose-aienv
-```
-
-Activate Virtual Environment
-```bash
-  source gym-motion-pose-aienv/bin/activate
-```
-
-Install dependencies
-
-```bash
-  pip install -r requirements.txt
-```
-
-Start the server
-
-```bash
-  python main.py
-```
 
 # Contributors
-
 - [@ujjawalpoudel](https://github.com/ujjawalpoudel)
 - [@Shanover77](https://github.com/Shanover77)
 - [@Sunilrai486](https://github.com/Sunilrai486)
 
 ## References
-
 Mihai Fieraru, Mihai Zanfir, Silviu-Cristian Pirlea, Vlad Olaru, and Cristian Sminchisescu.  
 "AIFit: Automatic 3D Human-Interpretable Feedback Models for Fitness Training."  
 In *The IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)*, June 2021.  
