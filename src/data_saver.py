@@ -55,19 +55,20 @@ class DataSaver:
             with open(output_csv_path, "w", newline="") as csvfile:
                 csv_writer = csv.writer(csvfile)
                 header = [
-                    "Frame Index",
-                    "Landmark Index",
-                    "X",
-                    "Y",
-                    "Z",
-                    "Visibility",
-                    "Time (seconds)",
-                    "RE_SH_H",
-                    "LE_SH_H",
-                    "RW_E_SH",
-                    "LW_E_SH",
-                    "RH_K_A",
-                    "LH_K_A",
+                    "data",
+                    "left_arm",
+                    "right_arm",
+                    "left_elbow",
+                    "right_elbow",
+                    "left_waist_leg",
+                    "right_waist_leg",
+                    "left_knee",
+                    "right_knee",
+                    "leftup_chest_inside",
+                    "rightup_chest_inside",
+                    "leftlow_chest_inside",
+                    "rightlow_chest_inside",
+                    "leg_spread",
                 ]
                 csv_writer.writerow(header)
 

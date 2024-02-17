@@ -63,32 +63,18 @@ class PoseLandmarkExtractor:
                 frame_time = frame_index / fps
                 pose_data_list.append(
                     [
-                        frame_index,
-                        idx,
-                        landmark.x,
-                        landmark.y,
-                        landmark.z,
-                        landmark.visibility,
-                        frame_time,
-                        angle_of_joint["right_elbow_shoulder_hip"],
-                        angle_of_joint["left_elbow_shoulder_hip"],
-                        angle_of_joint["right_wrist_elbow_shoulder"],
-                        angle_of_joint["left_wrist_elbow_shoulder"],
-                        angle_of_joint["right_hip_knee_ankle"],
-                        angle_of_joint["left_hip_knee_ankle"],
+                        {
+                            "x": landmark.x,
+                            "y": landmark.y,
+                            "z": landmark.z,
+                            "visibility": landmark.visibility,
+                            "landmark": idx,
+                            "time": frame_time,  # Time in Seconds
+                            "frame_index": frame_index,
+                        }
                     ]
+                    + list(angle_of_joint.values())
                 )
-
-                # Print Pose Landmark Information
-                print("Pose Landmark Information:")
-                print("Frame Index:", frame_index)
-                print("idx:", idx)
-                print("x:", landmark.x)
-                print("y:", landmark.y)
-                print("z:", landmark.z)
-                print("Visibility:", landmark.visibility)
-                print("Time (seconds):", frame_time)
-                print("\n")
         return frame, angle_of_joint
 
     def draw_table(self, frame, angle_of_joint):
