@@ -49,32 +49,61 @@ class PoseLandmarkExtractor:
         Returns:
             numpy.ndarray: Processed frame with pose landmarks drawn.
         """
+        # Convert BGR frame to RGB
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        # Process pose estimation
         results = self.pose_estimator.process(rgb_frame)
 
+        # If pose landmarks are detected
         if results.pose_landmarks:
+            # Draw landmarks on the frame
             self.mp_drawing.draw_landmarks(
                 frame, results.pose_landmarks, self.mp_pose.POSE_CONNECTIONS
             )
 
+            # Calculate joint angles
             angle_of_joint = calculate_joint_angles(results.pose_landmarks.landmark)
 
+            # Initialize temporary pose data list
+            temp_pose_data = []
+
+            # Iterate through each landmark
             for idx, landmark in enumerate(results.pose_landmarks.landmark):
+                # Calculate time in seconds
                 frame_time = frame_index / fps
-                pose_data_list.append(
-                    [
-                        {
-                            "x": landmark.x,
-                            "y": landmark.y,
-                            "z": landmark.z,
-                            "visibility": landmark.visibility,
-                            "landmark": idx,
-                            "time": frame_time,  # Time in Seconds
-                            "frame_index": frame_index,
-                        }
-                    ]
-                    + list(angle_of_joint.values())
+
+                # Append landmark data to temporary pose data list
+                temp_pose_data.append(
+                    {
+                        "x": landmark.x,
+                        "y": landmark.y,
+                        "z": landmark.z,
+                        "visibility": landmark.visibility,
+                        "landmark": idx,
+                        "time": frame_time,  # Time in Seconds
+                        "frame_index": frame_index,
+                    }
                 )
+
+                # Check if index is 32
+                if idx == 32:
+                    # Wrap temporary pose data in a list
+                    temp_pose_data = [temp_pose_data]
+
+                    # Append frame index to temporary pose data
+                    temp_pose_data.append(frame_index)
+
+                    # Append joint angles to temporary pose data
+                    temp_pose_data.extend(list(angle_of_joint.values()))
+
+                    # Append temporary pose data to pose data list
+                    pose_data_list.append(temp_pose_data)
+
+                    # Initialize Empty temp_pose_data
+                    temp_pose_data = []
+
+        # Return processed frame and joint angles
         return frame, angle_of_joint
 
     def draw_table(self, frame, angle_of_joint):
