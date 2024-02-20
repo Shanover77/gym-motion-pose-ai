@@ -15,3 +15,20 @@ JOINT_CONSTANTS = {
     "leftlow_chest_inside": (26, 24, 23),
     "rightlow_chest_inside": (25, 23, 24),
 }
+
+# JOINTS_NAME : Name of the joints which we track for angle
+JOINTS_NAME = [
+    "left_arm",
+    "right_arm",
+    "left_elbow",
+    "right_elbow",
+    "left_waist_leg",
+    "right_waist_leg",
+    "left_knee",
+    "right_knee",
+    "leftup_chest_inside",
+    "rightup_chest_inside",
+    "leftlow_chest_inside",
+    "rightlow_chest_inside",
+    "leg_spread",
+]

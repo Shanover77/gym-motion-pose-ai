@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from src.project_root_locator import find_project_root
 from src.pose_landmark_extractor import PoseLandmarkExtractor
 from utils.check_file_existence import check_file_existence
+from src.angle_peak_detector import AnglePeaksDetector
 
 
 def load_env_variables():
@@ -76,6 +77,13 @@ def main():
         # Run the pose landmark extraction process
         pose_extractor.run_extraction()
         print("Success: Pose landmark extraction completed.")
+
+        # Calculate angle peak values
+        detector = AnglePeaksDetector(os.getenv("VIDEO_FILE_NAME"))
+        angle_peaks = detector.find_angle_peaks()
+        print("Success: Angle peak values calculated.")
+        print("Angle peak values:", angle_peaks)
+
     except Exception as e:
         print(f"Error: {e}")
 
