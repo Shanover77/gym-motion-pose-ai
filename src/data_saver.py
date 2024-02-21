@@ -48,7 +48,7 @@ class DataSaver:
 
             # Define the output CSV path
             output_csv_path = os.path.join(
-                output_csv_folder, "annotated_" + file_name + "_pose_data.csv"
+                output_csv_folder, "annotated_" + file_name + ".csv"
             )
 
             # Write the header and data to the CSV file
@@ -56,6 +56,7 @@ class DataSaver:
                 csv_writer = csv.writer(csvfile)
                 header = [
                     "data",
+                    "frame",
                     "left_arm",
                     "right_arm",
                     "left_elbow",
