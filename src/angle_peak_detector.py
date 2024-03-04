@@ -70,6 +70,9 @@ class AnglePeaksDetector:
             # Apply rolling mean to specified JOINTS_NAME
             df[JOINTS_NAME] = df[JOINTS_NAME].rolling(window=90, min_periods=1).mean()
 
+            # Create a list, which will contain all peak and valley angles
+            all_angle_indices = []
+
             # Iterate through each joint column
             for i, col in enumerate(JOINTS_NAME):
                 y = df[col]  # Extract the y data for the current joint
@@ -90,6 +93,9 @@ class AnglePeaksDetector:
                 # Convert all values to integers using list comprehension
                 apex_indices = [int(x) for x in apex_indices]
 
+                # Extend peaks and valleys indices to all_angle_indices list
+                all_angle_indices.extend(apex_indices)
+
                 # Add joint's peak indices to angle_peaks list
                 angle_peaks.append(
                     {"column": df.columns[i + 2], "indices": apex_indices}
@@ -98,7 +104,7 @@ class AnglePeaksDetector:
             # Save angle peaks to a new CSV file
             angle_peaks_filepath = filepath.replace("annotated_", "angle_peaks_")
             pd.DataFrame(angle_peaks).to_csv(angle_peaks_filepath, index=False)
-            return angle_peaks
+            return angle_peaks, list(set(all_angle_indices))
         except KeyError as e:
             print(f"Column '{e.args[0]}' not found in the DataFrame.")
             return None
