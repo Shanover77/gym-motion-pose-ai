@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import os
+import numpy as np
 from .data_saver import DataSaver
 from utils.folder_manager import ensure_folder_exists
 from utils.joint_angle_calculator import calculate_joint_angles
@@ -147,7 +148,7 @@ class PoseLandmarkExtractor:
         )
         cv2.putText(
             frame,
-            "Angle",
+            "Angle (in degrees)",
             (table_start_x + cell_width + column_spacing, table_start_y),
             font,
             font_scale,
@@ -193,6 +194,11 @@ class PoseLandmarkExtractor:
         Returns:
             bool: True if extraction is successful, False otherwise.
         """
+        # Define the output image folder path
+        output_image_folder = os.path.join(
+            self.project_root_path, "data", "output_images", "temp_images"
+        )
+        ensure_folder_exists(output_image_folder)
 
         # Define the output video folder path
         output_video_folder = os.path.join(
@@ -233,6 +239,15 @@ class PoseLandmarkExtractor:
 
             if not ret:
                 break
+
+            # Split the name of video_file_name
+            file_name = self.video_file_name.split(".")[0]
+
+            # Save the frame as an image
+            image_output_path = os.path.join(
+                output_image_folder, f"{file_name}_frame_{frame_index}.jpg"
+            )
+            cv2.imwrite(image_output_path, frame)
 
             processed_frame, angle_of_joint = self.process_frame(
                 frame, pose_data_list, frame_index, fps
