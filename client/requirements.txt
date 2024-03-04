@@ -1,0 +1,6 @@
+PyQt5
+opencv-python
+mediapipe
+numpy
+requests
+pika

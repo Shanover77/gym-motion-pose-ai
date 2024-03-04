@@ -1,0 +1,5 @@
+flask
+tensorflow
+numpy
+pika
+scipy
