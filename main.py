@@ -5,6 +5,15 @@ from src.pose_landmark_extractor import PoseLandmarkExtractor
 from utils.check_file_existence import check_file_existence
 from src.angle_peak_detector import AnglePeaksDetector
 
+# Function to clear environment variables
+def clear_env():
+    for key in list(os.environ):
+        del os.environ[key]
+
+
+# Clear the environment variables
+clear_env()
+
 
 def load_env_variables():
     """
