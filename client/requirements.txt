@@ -4,3 +4,5 @@ mediapipe
 numpy
 requests
 pika
+pandas
+scikit-learn

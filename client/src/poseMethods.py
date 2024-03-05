@@ -39,7 +39,8 @@ class PoseProcessor:
                 keypoints.append(this_xyz)
                 index += 1
 
-            return self.calculate_angles(keypoints, self.all_angles, mode='degree')
+            # return self.calculate_angles(keypoints, self.all_angles, mode='degree')
+            return self.calculate_angles_with_ind(keypoints, self.all_angles, mode='degree')        
         else:
             # Handle the case where no pose landmarks are detected (optional)
             return None  # Or return an empty list, etc.
@@ -105,5 +106,32 @@ class PoseProcessor:
                 angle = self.calculate_leg_spread(landmark_l_knee, landmark_l_hip, landmark_r_hip, landmark_r_knee,
                                                   mode)
             angles.append(angle)
+
+        return angles
+    
+    def calculate_angles_with_ind(self, coords, joints, mode='cosine'):
+        """Calculates cosine radian values or degree values for a list of joint configurations."""
+        angles = []
+        for joint_index, joint in enumerate(joints):
+            if len(joint) == 3:
+                landmark_first = self.get_landmark_xyz(coords, joint[0])
+                landmark_mid = self.get_landmark_xyz(coords, joint[1])
+                landmark_end = self.get_landmark_xyz(coords, joint[2])
+
+                angle = self.calculate_angle(landmark_first, landmark_mid, landmark_end, mode)
+            else:
+                landmark_l_knee = self.get_landmark_xyz(coords, joint[0])
+                landmark_l_hip = self.get_landmark_xyz(coords, joint[1])
+                landmark_r_hip = self.get_landmark_xyz(coords, joint[2])
+                landmark_r_knee = self.get_landmark_xyz(coords, joint[3])
+
+                angle = self.calculate_leg_spread(landmark_l_knee, landmark_l_hip, landmark_r_hip, landmark_r_knee,
+                                                mode)
+            named_angle = ['left_arm', 'right_arm', 'left_elbow', 'right_elbow',
+       'left_waist_leg', 'right_waist_leg', 'left_knee', 'right_knee',
+       'leftup_chest_inside', 'rightup_chest_inside', 'leftlow_chest_inside',
+       'rightlow_chest_inside', 'leg_spread']
+            
+            angles.append((named_angle[joint_index], angle))
 
         return angles
