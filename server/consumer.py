@@ -128,9 +128,9 @@ def process_batch(batch):
         # Check if any class probability exceeds the threshold
         if np.max(prediction) > threshold:
             predicted_class = int(prediction.argmax())
-            print(f'Predicted class for data point {i + 1}: {label_mapping[str(predicted_class)]}')
+            print(f'Predicted class for data point {i + 1}: {label_mapping[predicted_class]}')
         else:
-            print(f'Predicted class for data point {i + 1}: Classification uncertain (low probability)')
+            print(f'Predicted class for data point {i + 1}: Uncertain (Low probability)')
 
 
     print('Processed batch')

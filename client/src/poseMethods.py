@@ -8,7 +8,7 @@ class PoseProcessor:
                            (24, 26, 28), (23, 25, 27), (11, 12, 24), (12, 11, 23), (26, 24, 23), (25, 23, 24),
                            (26, 24, 23, 25)]
 
-    def process(self, results):
+    def process(self, results, with_index=False):
         """
         Extracts and formats keypoints from MediaPipe pose landmark data.
 
@@ -40,7 +40,11 @@ class PoseProcessor:
                 index += 1
 
             # return self.calculate_angles(keypoints, self.all_angles, mode='degree')
-            return self.calculate_angles_with_ind(keypoints, self.all_angles, mode='degree')        
+            if with_index:
+                return self.calculate_angles_with_ind(keypoints, self.all_angles, mode='degree')
+            else:
+                return self.calculate_angles(keypoints, self.all_angles, mode='degree')
+            
         else:
             # Handle the case where no pose landmarks are detected (optional)
             return None  # Or return an empty list, etc.

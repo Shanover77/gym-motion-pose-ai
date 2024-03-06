@@ -134,7 +134,7 @@ class Pipeline_V2D:
             rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = self.mp_pose.process(rgb_image)
 
-            keypoints.append(self.pose_processor.process(results))
+            keypoints.append(self.pose_processor.process(results, with_index=True))
 
             frame_count += 1
 

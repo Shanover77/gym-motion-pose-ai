@@ -32,6 +32,8 @@ class VideoWindow(QWidget):
 
         # Create a label to display the video feed
         self.video_label = QLabel()
+        self.video_label.setAlignment(Qt.AlignCenter)
+        self.video_label.setScaledContents(True)  # Set to scale the contents
         self.layout.addWidget(self.video_label)
 
         # Add a combo box to select the camera or video file
@@ -66,6 +68,13 @@ class VideoWindow(QWidget):
 
         # Pipeline state
         self.pipeline_enabled = False
+
+        # Set the maximum height of the widget
+        # self.setMaximumHeight(800)
+        # self.setMaximumWidth(800)
+
+        self.setMinimumHeight(450)
+        self.setMinimumWidth(450)
 
         # Start the video capture loop in a separate thread
         self.start_video_thread()
@@ -121,9 +130,8 @@ class VideoWindow(QWidget):
 
             # Check for empty frame and handle accordingly
             if not ret:
-                print("End of video, resetting to the beginning.")
-                self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # Reset to the beginning
-                continue  # Skip processing and try the next frame
+                print("End of video")
+                break
 
             # Process the frame using OpenCV and MediaPipe (replace with your logic)
             rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -141,8 +149,7 @@ class VideoWindow(QWidget):
             # Run the post-processing pipeline if enabled
             if self.pipeline_enabled:
                 keypoints = self.pose_processor.process(results)
-                print('JSON RESPONSE:',len(keypoints), self.make_request(keypoints))
-                pass
+                self.make_request(keypoints)
 
             # Convert frame to Qt image format
             height, width, channel = frame.shape
@@ -155,7 +162,7 @@ class VideoWindow(QWidget):
             self.video_label.setAlignment(Qt.AlignCenter)  # Center align the video feed
 
             # Allow for user exit (replace with actual exit logic)
-            if cv2.waitKey(50) & 0xFF == ord('q'):  # Add a delay of 50ms
+            if cv2.waitKey(5) & 0xFF == ord('q'):  # Add a delay of 50ms
                 break
 
         # Clean up resources
