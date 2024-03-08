@@ -4,3 +4,4 @@ numpy
 pika
 scipy
 pandas
+scikit-learn
