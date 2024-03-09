@@ -1,10 +1,11 @@
 import pika
 import numpy as np
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from tensorflow import keras
 import json
 from scipy.signal import argrelextrema
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
 
 class Consumer:
     def __init__(self, model_path, batch_size=100, window_size=10):
@@ -14,6 +15,23 @@ class Consumer:
         self.data_batch = []
         self.loaded_model = None
         self.channel = None
+        self.create_label_mapping()
+
+    def create_label_mapping(self):
+        # Get the file name from model path and remove the extension
+        file_name = self.model_path.split("/")[-1].split(".")[0]
+
+        # Label mapping is in the format "models/model_name_label_mapping.txt"
+        label_mapping_file = f"models/{file_name}_label_mapping.txt"
+
+        # open the text file where each line has label and class number like band_pull_apart: 0
+        with open(label_mapping_file, "r") as file:
+            lines = file.readlines()
+            label_mapping = {int(line.split(":")[1].strip()): line.split(":")[0].strip() for line in lines}
+        
+        self.label_mapping = label_mapping
+        print(label_mapping )
+
 
     def connect_to_rabbitmq(self, host="localhost"):
         connection = pika.BlockingConnection(pika.ConnectionParameters(host=host))
@@ -90,12 +108,7 @@ class Consumer:
 
         predictions = self.loaded_model.predict(X_new)
 
-        label_mapping = {
-            0: "band_pull_apart",
-            1: "barbell_dead_row",
-            2: "barbell_row",
-            # ... add more labels here ...
-        }
+        label_mapping = self.label_mapping
 
         threshold = 0.3
 
@@ -131,7 +144,7 @@ class Consumer:
         self.channel.start_consuming()
 
 if __name__ == "__main__":
-    model_path = "models/exer24_apex_pipe_w16degtorad.h5"
+    model_path = "models/lstm_model_25.keras"
     consumer = Consumer(model_path)
     consumer.connect_to_rabbitmq()
     consumer.load_model()

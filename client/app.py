@@ -255,6 +255,11 @@ class MainWindow(QMainWindow):
         self.video_window.video_label.setPixmap(pixmap)
         self.video_window.video_label.setAlignment(Qt.AlignCenter)
 
+    # make all things to destroy when close the window
+    def closeEvent(self, event):
+        self.video_window.cap.release()
+        cv2.destroyAllWindows()
+        event.accept()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

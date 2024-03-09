@@ -6,3 +6,5 @@ requests
 pika
 pandas
 scikit-learn
+tensorflow
+qtawesome

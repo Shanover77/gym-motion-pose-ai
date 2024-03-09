@@ -22,5 +22,6 @@ exercise_dict = {
     20: 'overhead_extension_thruster',
     21: 'overhead_trap_raises',
     22: 'pushup',
-    23: 'side_lateral_raise'
+    23: 'side_lateral_raise',
+    24: 'standing_ab_twists'
 }
