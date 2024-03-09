@@ -144,7 +144,7 @@ class Consumer:
         self.channel.start_consuming()
 
 if __name__ == "__main__":
-    model_path = "models/lstm_model_25.keras"
+    model_path = "models/exer37_left_right_yaw_37.keras"
     consumer = Consumer(model_path)
     consumer.connect_to_rabbitmq()
     consumer.load_model()

@@ -108,7 +108,7 @@ class ModelPipeline:
 
 # Example usage
 # Set the model name prefix and label mapping file name
-model_name_prefix = 'lstm_model'
+model_name_prefix = 'exer37_left_right_yaw'
 label_mapping_file = 'label_mapping.txt'
 
 # Create an instance of the ModelPipeline class

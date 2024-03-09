@@ -4,7 +4,6 @@ from poseMethods import PoseProcessor
 import os
 import json
 import pandas as pd
-from sklearn.cluster import KMeans
 import os
 from scipy.signal import argrelextrema
 import numpy as np
@@ -21,10 +20,11 @@ class Pipeline_V2D:
     Step 8: Get sequence of frames from Entry/Exit clusters and save to csv with label 'Exit' or 'Entry'
     """
 
-    def __init__(self, mp4_file_path):
+    def __init__(self, mp4_file_path, label):
         self.mp4_file_path = mp4_file_path
         self.mp_pose = mp.solutions.pose.Pose()
         self.pose_processor = PoseProcessor()
+        self.label = label
 
         self.sequence_directory = 'sequences'
         self.trainable_dir = 'trainable_data'
@@ -243,7 +243,7 @@ class Pipeline_V2D:
         print('Indices type', type(apex_indices), len(apex_indices))
               
         # Expand apex_indices to include the frames before and after the apex frames, n=30
-        expanded_apex_indices = self.extendListOfNumbers(apex_indices, window=16)        
+        expanded_apex_indices = self.extendListOfNumbers(apex_indices, window=15)        
                    
         # Check if the expanded apex indices are within the range of the keypoints
         expanded_apex_indices = [i for i in expanded_apex_indices if i < len(keypoints)]
@@ -261,15 +261,22 @@ class Pipeline_V2D:
         apex_df = pd.DataFrame(apex_keypoints, columns=self.columns[1:])
         
         # exercise label from mp4 filename
-        mp4_filename = self.mp4_file_path.split("/")[-1].split(".")[0]
-        apex_df['label'] = mp4_filename
+        # mp4_filename = self.mp4_file_path.split("/")[-1].split(".")[0]
+        apex_df['label'] = self.label
 
         # Optionally, you can reset the index if needed
         apex_df.reset_index(drop=True, inplace=True)
 
         # Save the apex data to a CSV file
         mp4_filename = self.mp4_file_path.split("/")[-1].split(".")[0]
-        apex_df.to_csv(os.path.join(self.trainable_dir, f'{mp4_filename}_apex_data.csv'), index=False)
+        csv_file_path = os.path.join(self.trainable_dir, f'{mp4_filename}_apex_data.csv')
+        
+        if os.path.exists(csv_file_path):
+            existing_df = pd.read_csv(csv_file_path)
+            combined_df = pd.concat([existing_df, apex_df], ignore_index=True)
+            combined_df.to_csv(csv_file_path, index=False)
+        else:
+            apex_df.to_csv(csv_file_path, index=False)
 
         print(f"Apex data saved to {os.path.join(self.trainable_dir, f'{mp4_filename}_apex_data.csv')}")
 
@@ -311,27 +318,34 @@ class Pipeline_V2D:
 
 
 if __name__ == "__main__":
-    video_files = os.listdir("videos")
 
+    video_files = []
+    for root, dirs, files in os.walk("videos"):
+        for file in files:
+            if file.endswith(".mp4"):
+                video_files.append(os.path.join(root, file).replace("\\", "/"))
+
+   
     for video_file in video_files:
-        if video_file.endswith(".mp4"):
-            mp4_file_path = os.path.join("videos", video_file).replace("\\", "/")
-            pipeline = Pipeline_V2D(mp4_file_path)
+        label = video_file.split("/")[-2]
+        mp4_file_path = video_file
+        
+        pipeline = Pipeline_V2D(mp4_file_path, label)
 
-            pipeline.create_directories(['json', 'sequences', 'trainable_data', 'apex_points'])
-            print("Directories created.")
+        pipeline.create_directories(['json', 'sequences', 'trainable_data', 'apex_points'])
+        print("Directories created.")
 
-            pipeline.step1_load_mp4()
-            print("MP4 file loaded.")
+        pipeline.step1_load_mp4()
+        print("MP4 file loaded.")
 
-            points = pipeline.step2_extract_frames_and_create_pose()
-            print("Frames extracted and pose created.")
+        points = pipeline.step2_extract_frames_and_create_pose()
+        print("Frames extracted and pose created.")
 
-            top_angles = pipeline.step4_calculate_major_exercises()
-            print('Top angle column:', top_angles)
+        top_angles = pipeline.step4_calculate_major_exercises()
+        print('Top angle column:', top_angles)
 
-            pipeline.step6_applyPeakValley()
-            print("Peaks and valleys saved.")
+        pipeline.step6_applyPeakValley()
+        print("Peaks and valleys saved.")
 
-            pipeline.step8_extract_trainable_data()
-            print("Trainable data saved.")
+        pipeline.step8_extract_trainable_data()
+        print("Trainable data saved.")
