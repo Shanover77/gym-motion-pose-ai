@@ -1,0 +1,6 @@
+band pull apart: 0
+barbell biceps curl: 1
+barbell dead row: 2
+barbell row: 3
+barbell shrug: 4
+bench press: 5

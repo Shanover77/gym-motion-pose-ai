@@ -1,6 +1,6 @@
 import cv2
 import mediapipe as mp
-from poseMethods import PoseProcessor
+from FeatureEx import PoseProcessor
 import os
 import json
 import pandas as pd
@@ -9,16 +9,6 @@ from scipy.signal import argrelextrema
 import numpy as np
 
 class Pipeline_V2D:
-    """
-    Generates a pipeline for V2D:
-    Step 1: Load the mp4 file
-    Step 2: Extract the frames and create human pose using mediapipe
-    Step 4: Calculate Major exercises by using the angles deviation percentage
-    Step 5: Calculate peaks and valleys for each major angle and save for threshold model
-    Step 6: K-means clustering for each major angle (k=3)
-    Step 7: Get the Entry cluster (m=0), Exit cluster (m=1) 
-    Step 8: Get sequence of frames from Entry/Exit clusters and save to csv with label 'Exit' or 'Entry'
-    """
 
     def __init__(self, mp4_file_path, label):
         self.mp4_file_path = mp4_file_path
@@ -31,7 +21,7 @@ class Pipeline_V2D:
         self.columns = ['Frame', 'left_arm', 'right_arm', 'left_elbow', 'right_elbow',
                         'left_waist_leg', 'right_waist_leg', 'left_knee', 'right_knee',
                         'leftup_chest_inside', 'rightup_chest_inside', 'leftlow_chest_inside',
-                        'rightlow_chest_inside', 'leg_spread']
+                        'rightlow_chest_inside', 'leg_spread','arm_length_ratio','shoulder_to_hip_ratio','shoulder_hip_heel_ratio','shoulder_angle_h','shoulder_angle_v','hip_angle_h','hip_angle_v','foot_angle_h','foot_angle_v']
 
     def create_directories(self, directory_names):
         """
@@ -170,7 +160,7 @@ class Pipeline_V2D:
             rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = self.mp_pose.process(rgb_image)
 
-            keypoints.append(self.pose_processor.process(results, with_index=True))
+            keypoints.append(self.pose_processor.processFrame(results, with_index=True))
 
             frame_count += 1
 
@@ -328,6 +318,8 @@ if __name__ == "__main__":
    
     for video_file in video_files:
         label = video_file.split("/")[-2]
+        # remove underscores from label
+        label = label.replace("_", " ")
         mp4_file_path = video_file
         
         pipeline = Pipeline_V2D(mp4_file_path, label)

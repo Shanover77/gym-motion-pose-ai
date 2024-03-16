@@ -2,10 +2,19 @@ import pika
 import numpy as np
 import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+import tensorflow as tf
 from tensorflow import keras
 import json
 from scipy.signal import argrelextrema
 import pandas as pd
+
+# Define the custom activation function
+def inertia_activation(x, threshold=0.2, inertia_factor=0.1, decay_factor=0.2):
+    inertia_term = tf.keras.activations.sigmoid(inertia_factor * x)
+    significant_change = tf.keras.activations.relu(x - threshold)
+    after_effects = tf.keras.activations.exponential(decay_factor * (x - 0.1))
+    return x + inertia_term * significant_change * after_effects
+
 
 class Consumer:
     def __init__(self, model_path, batch_size=100, window_size=10):
@@ -39,7 +48,7 @@ class Consumer:
         self.channel.queue_declare(queue="hello")
 
     def load_model(self):
-        self.loaded_model = keras.models.load_model(self.model_path)
+        self.loaded_model = keras.models.load_model(self.model_path, custom_objects={'inertia_activation': inertia_activation})
 
     def find_peaks_and_valleys(self, df):
         angle_peaks = []
@@ -144,7 +153,7 @@ class Consumer:
         self.channel.start_consuming()
 
 if __name__ == "__main__":
-    model_path = "models/exer37_left_right_yaw_37.keras"
+    model_path = "models/ep50lstm128dense64intertia020102_ex_27.keras"
     consumer = Consumer(model_path)
     consumer.connect_to_rabbitmq()
     consumer.load_model()
