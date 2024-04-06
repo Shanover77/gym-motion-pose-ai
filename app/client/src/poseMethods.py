@@ -8,7 +8,7 @@ class PoseProcessor:
                            (24, 26, 28), (23, 25, 27), (11, 12, 24), (12, 11, 23), (26, 24, 23), (25, 23, 24),
                            (26, 24, 23, 25)]
 
-    def process(self, results, with_index=False):
+    def processFrame(self, results, with_index=False):
         """
         Extracts and formats keypoints from MediaPipe pose landmark data.
 

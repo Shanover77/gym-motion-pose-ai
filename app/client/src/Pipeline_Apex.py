@@ -1,6 +1,6 @@
 import cv2
 import mediapipe as mp
-from FeatureEx import PoseProcessor
+from poseMethods import PoseProcessor
 import os
 import json
 import pandas as pd
@@ -21,7 +21,7 @@ class Pipeline_V2D:
         self.columns = ['Frame', 'left_arm', 'right_arm', 'left_elbow', 'right_elbow',
                         'left_waist_leg', 'right_waist_leg', 'left_knee', 'right_knee',
                         'leftup_chest_inside', 'rightup_chest_inside', 'leftlow_chest_inside',
-                        'rightlow_chest_inside', 'leg_spread','arm_length_ratio','shoulder_to_hip_ratio','shoulder_hip_heel_ratio','shoulder_angle_h','shoulder_angle_v','hip_angle_h','hip_angle_v','foot_angle_h','foot_angle_v']
+                        'rightlow_chest_inside', 'leg_spread']
 
     def create_directories(self, directory_names):
         """
