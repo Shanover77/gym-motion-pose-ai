@@ -1,6 +1,6 @@
 import cv2
 import mediapipe as mp
-from FeatureEx import PoseProcessor
+from src.FeatureEx import PoseProcessor
 import os
 import json
 import pandas as pd
