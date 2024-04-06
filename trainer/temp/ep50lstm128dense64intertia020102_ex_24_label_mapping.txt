@@ -1,0 +1,24 @@
+band pull apart: 0
+barbell dead row: 1
+barbell row: 2
+barbell shrug: 3
+burpees: 4
+clean and press: 5
+deadlift: 6
+diamond pushup: 7
+drag curl: 8
+dumbbell biceps curls: 9
+dumbbell curl trifecta: 10
+dumbbell hammer curls: 11
+dumbbell high pulls: 12
+dumbbell overhead shoulder press: 13
+dumbbell reverse lunge: 14
+dumbbell scaptions: 15
+man maker: 16
+mule kick: 17
+neutral overhead shoulder press: 18
+one arm row: 19
+overhead extension thruster: 20
+overhead trap raises: 21
+pushup: 22
+side lateral raise: 23

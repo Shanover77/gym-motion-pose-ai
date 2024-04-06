@@ -6,7 +6,7 @@ import mediapipe as mp
 from datetime import datetime
 from PyQt5.QtGui import QImage, QPixmap, QIcon, QFont
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
-from src.poseMethods import PoseProcessor
+from utils import PoseProcessor
 from qtawesome import icon
 
 from PyQt5.QtWidgets import (

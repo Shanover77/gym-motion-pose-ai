@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from keras.callbacks import EarlyStopping
 import sklearn
 import os
+from contextlib import redirect_stdout
 
 # Define the custom activation function
 def inertia_activation(x, threshold=0.2, inertia_factor=0.1, decay_factor=0.2):
@@ -88,10 +89,16 @@ class ModelPipeline:
         plt.close()
 
     def save_model_summary(self, file_path, model):
-        # Save to working directory
-        file_path = os.path.join(self.work_dir, file_path)
-        with open(file_path, 'w') as f:
-            model.summary(print_fn=lambda x: f.write(x + '\n'))
+        # Define the filename where you want to save the summary
+        filename = file_path
+
+        # Open the file in write mode
+        with open(filename, 'w') as f:
+            # Redirect the stdout to the file
+            with redirect_stdout(f):
+                # Print the summary of the model
+                model.summary()
+
 
     def train_model(self, X, y):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -177,7 +184,7 @@ model_pipeline = ModelPipeline(model_name_prefix)
 
 # Load the data from the specified file paths
 # Set the directory path where the CSV files are located
-directory_path = 'training_set/'
+directory_path = 'trainable_data/'
 
 # Get all CSV file names in the directory
 file_names = [file for file in os.listdir(directory_path) if file.endswith('.csv')]
