@@ -4,6 +4,17 @@ from src.project_root_locator import find_project_root
 from src.pose_landmark_extractor import PoseLandmarkExtractor
 from utils.check_file_existence import check_file_existence
 from src.angle_peak_detector import AnglePeaksDetector
+from utils.image_cleanup import cleanup_temp_images
+
+
+# Function to clear environment variables
+def clear_env():
+    for key in list(os.environ):
+        del os.environ[key]
+
+
+# Clear the environment variables
+clear_env()
 
 
 def load_env_variables():
@@ -68,6 +79,9 @@ def main():
             print("Error: Failed to load environment variables.")
             return
 
+        # Load environment variables
+        vidoe_filename = os.getenv("VIDEO_FILE_NAME")
+
         # Initialize PoseLandmarkExtractor
         pose_extractor, success = initialize_pose_extractor()
         if not success or pose_extractor is None:
@@ -79,10 +93,17 @@ def main():
         print("Success: Pose landmark extraction completed.")
 
         # Calculate angle peak values
-        detector = AnglePeaksDetector(os.getenv("VIDEO_FILE_NAME"))
-        angle_peaks = detector.find_angle_peaks()
-        print("Success: Angle peak values calculated.")
-        print("Angle peak values:", angle_peaks)
+        detector = AnglePeaksDetector(vidoe_filename)
+        print(detector)
+        angle_peaks, all_angle_indices = detector.find_angle_peaks()
+
+        # Delete all image except for all_angle_indices
+        cleanup_temp_images(all_angle_indices)
+        print("\nSuccess: Temporary images cleaned up.")
+
+        print("\nSuccess: Angle peak values calculated.")
+        print("\nAngle peak values:", angle_peaks)
+        print("\nAll angles:", all_angle_indices)
 
     except Exception as e:
         print(f"Error: {e}")
