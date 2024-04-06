@@ -162,6 +162,25 @@ data/
 # Ignore CSV file extension
 *.csv
 
+# Ignore CSV file extension
+*.csv
+
+# Ignore json file extension
+*.json
+
+# Ignore keras file extension
+*.keras
+
+# Ignore txt file extension
+*.txt
+
+# Ignore image file extension
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
