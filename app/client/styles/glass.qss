@@ -1,0 +1,53 @@
+/* Apply glassmorphism effect to QWidget */
+QVBoxLayout {
+    font-family: 'Courier', sans-serif;
+    background-color: #F8F9FA; /* Set background color to a fresh light gray */
+    border: 1px solid #CED4DA; /* Add a light gray border */
+    border-radius: 5px; /* Reduce border radius for a cleaner look */
+    color: #212529; /* Set text color to a dark gray */
+}
+
+
+/* Style QLabel with Material Design */
+QLabel {
+    font-size: 14px;
+    color: #212529; /* Set text color to a dark gray */
+    margin: 0;
+}
+
+/* Style QPushButton with Material Design and glassmorphism */
+QPushButton {
+    background-color: #007BFF; /* Set background color to a material blue */
+    color: #FFFFFF; /* Set text color to white */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 5px;
+}
+
+/* Style QComboBox with Material Design */
+QComboBox {
+    font-size: 14px;
+    padding: 5px;
+    color: #212529; /* Set text color to a dark gray */
+}
+
+/* Apply glassmorphism effect to QComboBox */
+QComboBox::drop-down {
+    border: 1px solid #CED4DA; /* Add a light gray border */
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background: #F8F9FA; /* Set background color to a fresh light gray */
+    color: #212529; /* Set text color to a dark gray */
+}
+
+/* Style QComboBox items */
+QComboBox QAbstractItemView {
+    background-color: #F8F9FA; /* Set background color to a fresh light gray */
+    color: #212529; /* Set text color to a dark gray */
+    border: 1px solid #CED4DA; /* Add a light gray border */
+    selection-background-color: #007BFF; /* Set selection background color to a material blue */
+}

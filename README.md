@@ -20,6 +20,9 @@ with the file format of `exerciseName_cameraId_personId_features.`
 - [@ujjawalpoudel](https://github.com/ujjawalpoudel)
 - [@Shanover77](https://github.com/Shanover77)
 - [@Sunilrai486](https://github.com/Sunilrai486)
+- [@Bigyan835](https://github.com/Bigyan835)
+- [@ANJAISANILKUMAR](https://github.com/ANJAISANILKUMAR)
+- [@syedzumairh](https://github.com/syedzumairh)
 
 ## References
 Mihai Fieraru, Mihai Zanfir, Silviu-Cristian Pirlea, Vlad Olaru, and Cristian Sminchisescu.  
