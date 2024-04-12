@@ -1,55 +1,24 @@
 gym-motion-pose-ai: An on-going project to critique an exercise by using an ensemble of ML/Vision models. Mainly focuses on orientations, angle of joints, based on the human pose estimate (33 Joints)
 
 ## Key Milestones
-1. Repetition detection model
-2. Orientation and symmetry model
-3. Threshold predictor for training step
+1. Repetition detection model - client/src/preprocessor_videos.py => step6_applyPeakValley()
+2. Orientation/Symmetry - (pending) - /translation_angle
+3. Threshold predictor for training step - (pending) - /threshold
 
-## Notebooks
-Contains experimental notebooks that has the code for ETL/EDA.
+# Client - Client and Trainer
 
-## Environment Variables
+Dir : client/
+Client Application (Windows Exec) : client/app.py
+Preprocessor videos (Requires /videos/{label}/**.mp4) : client/preprocessor_videos.py -> /trainable_data
+Trainer on videos (Requires /trainable_data/*.csv) : client/trainer.py -> /temp/
 
-To run this project, you will need to add the following environment variables to your .env file
+# Server - RabbitMQ/Flask for Inference
+Dir : server/
+Listens on flask, requires RabbitMQ and Erlang. See /server/readme.md
 
-`VIDEO_FILE_NAME=barbell_row.mp4`
-
-
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone "repository url"
-```
-
-Go to the project directory
-
-```bash
-  cd gym-motion-pose-ai
-```
-
-Create a Virtual Environment
-```bash
-  python3.11 -m venv gym-motion-pose-aienv
-```
-
-Activate Virtual Environment
-```bash
-  source gym-motion-pose-aienv/bin/activate
-```
-
-Install dependencies
-
-```bash
-  pip install -r requirements.txt
-```
-
-Start the server
-
-```bash
-  python main.py
-```
+# Challenges/Limitations:
+1. 2D and 3D is big challenge. We can only get so much information from 2D mediapipe representation.
+2. 'Non-full-body' videos or frames may produce undesirable results
 
 # Contributors
 
@@ -60,7 +29,11 @@ Start the server
 - [@ANJAISANILKUMAR](https://github.com/ANJAISANILKUMAR)
 - [@syedzumairh](https://github.com/syedzumairh)
 
-## References
+# Dataset Used (with thanks) to
+INSTITUTE OF MATHEMATICS "SIMION STOILOW" OF THE ROMANIAN ACADEMY 
+https://fit3d.imar.ro/
+
+## References/Related works
 
 Mihai Fieraru, Mihai Zanfir, Silviu-Cristian Pirlea, Vlad Olaru, and Cristian Sminchisescu.  
 "AIFit: Automatic 3D Human-Interpretable Feedback Models for Fitness Training."  
