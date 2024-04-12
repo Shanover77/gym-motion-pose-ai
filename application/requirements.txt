@@ -1,0 +1,8 @@
+PyQt5
+opencv-python
+mediapipe
+numpy
+requests
+qtawesome
+pydot
+pika
